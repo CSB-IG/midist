@@ -1,0 +1,7 @@
+require("data.table")
+require("parallel")
+enfermos_sif <-fread(input = "/mnt/e/jespinal/sif/Enfermos1_SinDuplicados.sif", data.table = FALSE)
+head(enfermos_sif)
+hist_enfermos <- hist(enfermos_sif$V2, breaks = 200, plot = FALSE)
+plot(x = hist_enfermos$mids, y = log(hist_enfermos$count), pch = ".")
+lines(x = hist_enfermos$mids, y = log(hist_enfermos$count), type = "l")
