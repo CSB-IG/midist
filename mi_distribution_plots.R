@@ -11,6 +11,7 @@ hist_sanos <- hist(sanos_sif$V2, breaks = 200, plot = FALSE)
 plot(x = hist_sanos$mids, y = log(hist_sanos$count), type = "l")
 lines(x = hist_enfermos$mids, y = log(hist_enfermos$count), type = "l", col = "red")
 
+#TODO: Check whether this is the right way to estimate the distribution.
 #density plots
 density_enfermos<-density(enfermos_sif$V2)
 density_sanos<-density(sanos_sif$V2)
