@@ -43,34 +43,33 @@ gene.chrom.dict <- function(sif) {
 	return(genes_in_valid_chroms)
 }
 
+# This function takes an index and finds whether both genes are in the same chromosome.
+# check whether any of the genes are in some chrom
+in.same.chrom <- function (A, B, dict) {
+	chrom_a = gene.chrom(A, dict)
+	chrom_b = gene.chrom(B, dict)
+
+	# TODO: Can we have an N/A or other error condition?
+	if (is.na(chrom_a) || is.na(chrom_b)) {
+		return(NA)
+	}
+
+	if (chrom_a == chrom_b) {
+		return(TRUE)
+	} else {
+		return(FALSE)
+	}
+}
+
+
 # takes sif. Returns TRUE for each row that has intrachromosomic interaction
 # FALSE if interchromosomic interaction
-index.intra.chromosomic <- function(sif){
-	dict = gene.chrom.dict(sif)
-
-	# This function takes an index and finds whether both genes are in the same chromosome.
-	# check whether any of the genes are in some chrom
-	in.same.chrom <- function (A, B) {
-		chrom_a = gene.chrom(A, dict)
-		chrom_b = gene.chrom(B, dict)
-
-		# TODO: Can we have an N/A or other error condition?
-		if (is.na(chrom_a) || is.na(chrom_b)) {
-			return(NA)
-		}
-
-		if (chrom_a == chrom_b) {
-			return(TRUE)
-		} else {
-			return(FALSE)
-		}
-	}
+index.intra.chromosomic <- function(sif, dict){
 
 	a = sif[,1]
 	b = sif[,3]
-	mapply(FUN = in.same.chrom, A = a, B = b, USE.NAMES = FALSE)
+	mapply(FUN = in.same.chrom, A = a, B = b, USE.NAMES = FALSE, MoreArgs = list(dict))
 }
-
 
 # MAIN
 
@@ -94,7 +93,8 @@ sif <- fread(input = args$file, data.table = FALSE)
 
 # not_in_chrom<-genes[!(genes%in%genes_in_valid_chroms)]
 
-index_intra <- index.intra.chromosomic(sif)
+chrom_dict = gene.chrom.dict(sif)
+index_intra <- index.intra.chromosomic(sif, chrom_dict)
 intra_sif <- sif[index_intra,]
 inter_sif <- sif[!index_intra,]
 
