@@ -51,6 +51,13 @@ valid_chroms = c(1:23, "X", "Y")
 
 genes_in_valid_chroms <- genes_in_chrom[genes_in_chrom$chromosome_name%in%valid_chroms,]
 
+#offline mode dictionary
+#write.table(genes_in_valid_chroms,
+#           file = "gene_chromosome_dictionary_july2016.txt",
+#           quote = FALSE, sep = "\t", row.names = FALSE)
+#
+
+
 # not_in_chrom<-genes[!(genes%in%genes_in_valid_chroms)]
 
 # TODO: Add a function to make an index of intra chromosome relationships.
