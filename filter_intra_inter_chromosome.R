@@ -66,24 +66,44 @@ genes_in_valid_chroms <- genes_in_chrom[genes_in_chrom$chromosome_name%in%valid_
 # to get the vector of intra chromosomic conections.
 # Inter chromosomic connections are the negation on that vector.
 
-# This function takes an index and finds whether both genes are in the same chromosome.
-function in_same_chrom(A, B) {
-	# check whether any of the genes are in some chrom
-	for c in valid_chroms:
-		# test A in chrom c
-		a_in_chrom = ??
-		# test B in chrom c
-		b_in_chrom = ??
-		# if a_in_chrom and b_in_chrom, return true (both genes in the same chrom)
-		# if a_in_chrom or b_in_chrom, return false (we found one and the other is not in the same chrom)
-		# else, keep looking
-
-	# We did not found any of the genes in the chroms
-	# ¿should we return NA or raise an error?
+# this function gets chromosome name for given gene
+gene.chrom<-function(gene_name){
+	stopifnot(is.character(gene_name))
+	# get the symbol name in the dictionary
+	chrom = genes_in_valid_chroms$chromosome_name[genes_in_valid_chroms$hgnc_symbol == gene_name]
+  if(length(chrom) < 1){
+    return(NA)
+  }
+  else
+	return(chrom)
 }
 
-# Map genes_in_valid_chroms trough the in_same_chrom function
-intra_chromosomic_index <- ?map(genes_in_valid_chroms, in_same_chrom(x$V1, x$V3)?
+
+# This function takes an index and finds whether both genes are in the same chromosome.
+# check whether any of the genes are in some chrom
+in.same.chrom <- function (A, B) {
+	chrom_a = gene.chrom(A)
+	chrom_b = gene.chrom(B)
+
+	# TODO: Can we have an N/A or other error condition?
+	if (is.na(chrom_a) || is.na(chrom_b)) {
+		return(NA)
+	}
+
+	if (chrom_a == chrom_b) {
+		return(TRUE)
+	} else {
+		return(FALSE)
+	}
+}
+
+# takes sif. Returns TRUE for each row that has intrachromosomic interaction
+# FALSE if interchromosomic interaction
+is.intra.chromosomic <- function(sif){
+  a = sif[,1]
+  b = sif[,3]
+  mapply(FUN = in.same.chrom, A = a, B = b, USE.NAMES = FALSE)
+}
 
 # Then we can pass this network through the mi_distribution_plots to get intra and extra.
 #
