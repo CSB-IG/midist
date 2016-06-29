@@ -6,17 +6,15 @@
 #
 # - plot the distribution of MI in intra chromosomic interactions and inter chromosomic interactions.
 
+library("argparse")
 library("biomaRt")
 library("data.table")
-library("argparse")
+library("hash")
 
 # this function gets chromosome name for given gene
 gene.chrom<-function(gene_name, gene_dict){
-	stopifnot(is.character(gene_name))
-	# get the symbol name in the dictionary
-	chrom = gene_dict$chromosome_name[gene_dict$hgnc_symbol == gene_name]
-	if(length(chrom) < 1) { return(NA) }
-	else { return(chrom) }
+	if(has.key(gene_name, gene_dict)) { return(gene_dict[[gene_name]]) }
+	else { return(NA) }
 }
 
 gene.chrom.dict <- function(sif) {
@@ -39,8 +37,9 @@ gene.chrom.dict <- function(sif) {
 	# filter only valid gene/chromosome pairs
 	valid_chroms = c(1:23, "X", "Y")
 	genes_in_valid_chroms <- genes_in_chrom[genes_in_chrom$chromosome_name%in%valid_chroms,]
+	gene_dict = hash(genes_in_valid_chroms$hgnc_symbol, genes_in_valid_chroms$chromosome_name)
 
-	return(genes_in_valid_chroms)
+	return(gene_dict)
 }
 
 # This function takes an index and finds whether both genes are in the same chromosome.
