@@ -95,8 +95,9 @@ sif <- fread(input = args$file, data.table = FALSE)
 
 chrom_dict = gene.chrom.dict(sif)
 index_intra <- index.intra.chromosomic(sif, chrom_dict)
-intra_sif <- sif[index_intra,]
-inter_sif <- sif[!index_intra,]
+has_value <- !is.na(index_intra)
+intra_sif <- sif[index_intra & has_value,]
+inter_sif <- sif[!index_intra & has_value,]
 
 intra_fname = gsub(".(txt|sif)", "_intra.sif", basename(args$file))
 inter_fname = gsub(".(txt|sif)", "_inter.sif", basename(args$file))
