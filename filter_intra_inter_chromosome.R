@@ -10,6 +10,7 @@ library("argparse")
 library("biomaRt")
 library("data.table")
 library("hash")
+library("parallel")
 
 # this function gets chromosome name for given gene
 gene.chrom<-function(gene_name, gene_dict){
@@ -67,7 +68,7 @@ index.intra.chromosomic <- function(sif, dict){
 
 	a = sif[,1]
 	b = sif[,3]
-	mapply(FUN = in.same.chrom, A = a, B = b, USE.NAMES = FALSE, MoreArgs = list(dict))
+	mcmapply(FUN = in.same.chrom, A = a, B = b, USE.NAMES = FALSE, MoreArgs = list(dict), mc.cores = 16)
 }
 
 # MAIN
