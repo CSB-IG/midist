@@ -1,32 +1,43 @@
-require("data.table")
-require("parallel")
-enfermos_sif <-fread(input = "/mnt/e/jespinal/sif/Enfermos1_SinDuplicados.sif", data.table = FALSE)
-sanos_sif <-fread(input = "/mnt/e/jespinal/sif/Sanos1_SinDuplicados.sif", data.table = FALSE)
+library("data.table")
+library("argparse")
+
+parser <- ArgumentParser(description = "Plots the MI distribution of two SIF files.")
+parser$add_argument(
+	"sanos",
+	metavar = 'sanos',
+	type = 'character',
+	help = "The SIF file to process."
+)
+parser$add_argument(
+	"enfermos",
+	metavar = 'enfermos',
+	type = 'character',
+	help = "The SIF file to process."
+)
+args <- parser$parse_args()
+
+sanos_sif <-fread(input = args$sanos, data.table = FALSE)
+enfermos_sif <-fread(input = args$enfermos, data.table = FALSE)
 
 #histogramas
-hist_enfermos <- hist(enfermos_sif$V2, breaks = 200, plot = FALSE)
 hist_sanos <- hist(sanos_sif$V2, breaks = 200, plot = FALSE)
-
-##plots histogramas
-plot(x = hist_sanos$mids, y = log(hist_sanos$count), type = "l")
-lines(x = hist_enfermos$mids, y = log(hist_enfermos$count), type = "l", col = "red")
+hist_enfermos <- hist(enfermos_sif$V2, breaks = 200, plot = FALSE)
 
 #TODO: Check whether this is the right way to estimate the distribution.
 #density plots
-density_enfermos<-density(enfermos_sif$V2)
 density_sanos<-density(sanos_sif$V2)
+density_enfermos<-density(enfermos_sif$V2)
 
 ##plot density
+plot_fname = paste0(
+	gsub(".(txt|sif)", "_blue_", basename(args$sanos)),
+	gsub(".(txt|sif)", "_red", basename(args$enfermos)),
+	".png"
+)
+png(plot_fname, width=4, height=4, units="in", res=300)
 plot(x = density_enfermos, type = "l", col = "red")
-lines(x = density_sanos, type = "l", col = "blue")
+points(x = density_sanos, type = "l", col = "blue")
+dev.off()
 
-plot(x = density_sanos, type = "l", col = "green")
 #compare densities?
-ks.test(x = density_enfermos$y, y = density_sanos$y)
-
-# #try with KernSmooth
-# bk_enfermos<-bkde(enfermos_sif$V2)
-# bk_sanos<-bkde(sanos_sif$V2)
-# plot(bk_enfermos)
-# plot(bk_sanos)
-# ks.test(x = bk_enfermos$y, y = bk_sanos$y)
+ks.test(x = density_sanos$y, y = density_enfermos$y)
