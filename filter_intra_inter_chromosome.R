@@ -96,23 +96,22 @@ sif <- fread(input = args$file, data.table = FALSE)
 chrom_dict = gene.chrom.dict(sif)
 index_intra <- index.intra.chromosomic(sif, chrom_dict)
 has_value <- !is.na(index_intra)
-intra_sif <- sif[index_intra & has_value,]
-inter_sif <- sif[!index_intra & has_value,]
 
-intra_fname = gsub(".(txt|sif)", "_intra.sif", basename(args$file))
-inter_fname = gsub(".(txt|sif)", "_inter.sif", basename(args$file))
+intra_fname = gsub(".(txt|sif)", "_intra.index", basename(args$file))
+undef_fname = gsub(".(txt|sif)", "_undef.index", basename(args$file))
 
+# Write index for intra chromosomic interactions
 write.table(
-	intra_sif,
+	index_intra,
 	file = intra_fname,
         quote = FALSE,
         sep = "\t",
         row.names = FALSE
 )
-
+# Write index for undefined cromosomic interactions
 write.table(
-	inter_sif,
-	file = inter_fname,
+	has_value,
+	file = undef_fname,
         quote = FALSE,
         sep = "\t",
         row.names = FALSE
