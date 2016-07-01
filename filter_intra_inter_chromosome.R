@@ -107,12 +107,5 @@ write.table(
         quote = FALSE,
         sep = "\t",
         row.names = FALSE
-)
-# Write index for undefined cromosomic interactions
-write.table(
-	has_value,
-	file = undef_fname,
-        quote = FALSE,
-        sep = "\t",
-        row.names = FALSE
+        col.names = FALSE
 )
