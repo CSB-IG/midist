@@ -4,31 +4,58 @@ library("data.table")
 #
 # Load index
 #
-load.index<-function(index){
-  fread(input = index, data.table = FALSE)
+load.index <- function(filename){
+  idx <- fread(input = filename, data.table = FALSE)
+  idx$V1 = as.character(idx$V1)
+  idx$V2 = as.character(idx$V2)
+  return(as.data.frame(idx))
 }
 
 #
 #Subgraphing functions
 #
-intra.chromosomic<-function(sif, index){
-  index<-as.data.frame(index, stringsAsFactors = FALSE)
-  return(subset(sif, index$V1 ==index$V2 &
-                  !is.na(index$V1) &
-                  !is.na(index$V2)))
+known.chrom(chrom_index) {
+        return(!is.na(chrom_index$V1) & !is.na(chrom_index$V2))
 }
 
-inter.chromosomic <-function(sif, index){
-  index<-as.data.frame(index, stringsAsFactors = FALSE)
-  return(subset(sif, index$V1 !=index$V2 &
-                  !is.na(index$V1) &
-                  !is.na(index$V2)))
+is.intra.chromosomic<-function(chrom_index){
+	return(
+		(chrom_index$V1 == chrom_index$V2)
+		& known.chrom(chrom_index)
+	)
 }
 
-selector<-function(sif, criteria){
-  #example criteria index$V1 == "19"
-  #example criteria index$V1 == "19" & index$V2 == "20"
-  return(subset(sif, criteria))
+is.inter.chromosomic <-function(chrom_index){
+  return(
+	chrom_index$V1 != chrom_index$V2
+	& known.chrom(chrom_index)
+  )
+}
+
+is.in.chrom(chrom_index, chrom_name) {
+	return(
+		(chrom_index$V1 == chrom_name | chrom_index$V2 == chrom_name)
+		& known.chrom(chrom_index)
+	)
+}
+
+is.in.chroms(chrom_index, ...) {
+	return(
+		(chrom_index$V1 %in% c(...) | chrom_index$V2 %in% c(...))
+		& known.chrom(chrom_index)
+	)
+}
+
+is.between.chroms(chrom_index, c1, c2) {
+	return(
+		known.chrom(chrom_index)
+		& ( (chrom_index$V1 == c1 & chrom_index$V2 == c2)
+		| (chrom_index$V1 == c2 & chrom_index$V2 == c1) )
+	)
+}
+
+selector<-function(sif, index){
+  return(subset(sif, index))
 }
 
 #
