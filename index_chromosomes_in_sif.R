@@ -12,6 +12,7 @@
 # chrom_for_gene_1 <tab> chrom_for_gene_2
 
 source("indexing.R")
+library("argparse")
 # MAIN
 
 parser <- ArgumentParser(description = "Split a sif file in intra/inter chromosomic interactions.")
