@@ -1,8 +1,3 @@
-library("biomaRt")
-library("data.table")
-library("hash")
-library("parallel")
-
 # this function generates a dictionary of gene, chromosome
 # for lookup using gene.chrom
 gene.chrom.dict <- function(sif) {
@@ -10,12 +5,12 @@ gene.chrom.dict <- function(sif) {
 	genes<-unique(c(unique(sif$V1), unique(sif$V3)))
 
 	# find the genes on biomart
-	mart=useMart(
+	mart = biomaRt::useMart(
 		biomart="ENSEMBL_MART_ENSEMBL",
 		dataset="hsapiens_gene_ensembl",
 		host="www.ensembl.org"
 	)
-	genes_in_chrom <- getBM(
+	genes_in_chrom <- biomart::getBM(
 		attributes = c("hgnc_symbol", "chromosome_name"),
 		filters = "hgnc_symbol",
 		values = genes,
@@ -25,7 +20,7 @@ gene.chrom.dict <- function(sif) {
 	# filter only valid gene/chromosome pairs
 	valid_chroms = c(1:23, "X", "Y")
 	genes_in_valid_chroms <- genes_in_chrom[genes_in_chrom$chromosome_name%in%valid_chroms,]
-	gene_dict = hash(genes_in_valid_chroms$hgnc_symbol, genes_in_valid_chroms$chromosome_name)
+	gene_dict = hash::hash(genes_in_valid_chroms$hgnc_symbol, genes_in_valid_chroms$chromosome_name)
 
 	return(gene_dict)
 }
@@ -43,8 +38,8 @@ index.chromosome <- function(sif, chrom_dict=gene.chrom.dict(sif)){
 	return(
 		as.matrix(
 			cbind(
-				mcmapply(FUN=gene.chrom, sif$V1, MoreArgs = list(chrom_dict), USE.NAMES=FALSE, mc.cores=16),
-				mcmapply(FUN=gene.chrom, sif$V3, MoreArgs = list(chrom_dict), USE.NAMES=FALSE, mc.cores=16)
+				parallel::mcmapply(FUN=gene.chrom, sif$V1, MoreArgs = list(chrom_dict), USE.NAMES=FALSE, mc.cores=16),
+				parallel::mcmapply(FUN=gene.chrom, sif$V3, MoreArgs = list(chrom_dict), USE.NAMES=FALSE, mc.cores=16)
 			),
 			dimnames = NULL
 		)
