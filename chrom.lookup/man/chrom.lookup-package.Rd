@@ -13,8 +13,8 @@
 The DESCRIPTION file:
 \packageDESCRIPTION{chrom.lookup}
 \packageIndices{chrom.lookup}
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
+%% ~~ An overview of how to use the package, including the most important ~~
+%% ~~ functions ~~
 }
 \author{
 \packageAuthor{chrom.lookup}
@@ -24,13 +24,14 @@ Maintainer: \packageMaintainer{chrom.lookup}
 \references{
 ~~ Literature or other references for background information ~~
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
+
 \keyword{ package }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+	\code{ \link{ gene.chrom }
+	\code{ \link{ gene.chrom.dict }
+	\code{ \link{ index.chromosome }
 }
+
 \examples{
-~~ simple examples of the most important functions ~~
+%%~~ simple examples of the most important functions ~~
 }

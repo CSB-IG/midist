@@ -7,7 +7,7 @@ gene.chrom.dict <- function(genes) {
 		dataset="hsapiens_gene_ensembl",
 		host="www.ensembl.org"
 	)
-	genes_in_chrom <- biomart::getBM(
+	genes_in_chrom <- biomaRt::getBM(
 		attributes = c("hgnc_symbol", "chromosome_name"),
 		filters = "hgnc_symbol",
 		values = genes,
@@ -24,22 +24,21 @@ gene.chrom.dict <- function(genes) {
 }
 
 # this function gets chromosome name for given gene
-gene.chrom<-function(gene_name, gene_dict){
-	if(has.key(gene_name, gene_dict)) { return(gene_dict[[gene_name]]) }
+gene.chrom <- function(gene_name, gene_dict) {
+	if (hash::has.key(gene_name, gene_dict)) { return(gene_dict[[gene_name]]) }
 	else { return(NA) }
 }
 
-# Takes a sif and a dict containing gene, chromosome.
+# Takes a list of gene names and a dict containing gene, chromosome.
 #
-# Returns an index of crom_a, chrom_b in SIF.
-index.chromosome <- function(sif, chrom_dict=gene.chrom.dict(sif)){
-	return(
-		as.matrix(
-			cbind(
-				parallel::mcmapply(FUN=gene.chrom, sif$V1, MoreArgs = list(chrom_dict), USE.NAMES=FALSE, mc.cores=16),
-				parallel::mcmapply(FUN=gene.chrom, sif$V3, MoreArgs = list(chrom_dict), USE.NAMES=FALSE, mc.cores=16)
-			),
-			dimnames = NULL
-		)
+# Returns a vector containing a chromosome name for each gene name on genes.
+index.chromosome <- function(genes, chrom_dict = gene.chrom.dict(genes)) {
+	chrom_index <- parallel::mcmapply(
+		FUN=gene.chrom,
+		genes,
+		MoreArgs = list(chrom_dict),
+		USE.NAMES=FALSE,
+		mc.cores=16
 	)
+	return(chrom_index)
 }

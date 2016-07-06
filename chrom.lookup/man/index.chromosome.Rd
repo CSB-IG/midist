@@ -5,40 +5,40 @@
 A function to index the chromosomes for each SIF element.
 }
 \description{
-Given a SIF and optionally a chrom_dict, it returns a matrix containing the chromosome names.
+Given a vector of gene names, and optionally a chrom_dict,
+it returns a vector containing the chromosome name
+in which the gene is located.
 }
 \usage{
-index.chromosome(sif, chrom_dict = gene.chrom.dict(sif))
+index.chromosome(genes)
+d <- gene.chrom.dict(genes-superset)
+index.chromosome(genes, d)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{sif}{
-A 'data.frame' containing: 'GENE1', 'MI value', 'GENE 2'
+  \item{genes}{
+A vector containing gene names.
 }
   \item{chrom_dict}{
 The dictionary returned from \code{gene.chrom.dict}
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+As this function is used for datasets sets containing millions of gene instances, it is multi threaded.
 }
 \value{
-A matrix of the form "chrom1", "chrom2" that contains a row for each interaction on the input SIF.
+A vector of chromosome names corresponding to each element on genes.
 }
 \references{
-%% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
 }
 \note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
 ##---- Should be DIRECTLY executable !! ----
@@ -46,15 +46,18 @@ A matrix of the form "chrom1", "chrom2" that contains a row for each interaction
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (sif, chrom_dict = gene.chrom.dict(sif)) 
+function (genes, chrom_dict = gene.chrom.dict(genes))
 {
-    return(as.matrix(cbind(mcmapply(FUN = gene.chrom, sif$V1, 
-        MoreArgs = list(chrom_dict), USE.NAMES = FALSE, mc.cores = 16), 
-        mcmapply(FUN = gene.chrom, sif$V3, MoreArgs = list(chrom_dict), 
-            USE.NAMES = FALSE, mc.cores = 16)), dimnames = NULL))
-  }
+	chrom_index <- parallel::mcmapply(
+		FUN=gene.chrom,
+		genes,
+		MoreArgs = list(chrom_dict),
+		USE.NAMES=FALSE,
+		mc.cores=16
+	)
+	return(chrom_index)
+
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+\keyword{ chromosomes }
+\keyword{ genes }
