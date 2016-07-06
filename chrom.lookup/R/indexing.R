@@ -1,8 +1,3 @@
-library("biomaRt")
-library("data.table")
-library("hash")
-library("parallel")
-
 # this function generates a dictionary of gene, chromosome
 # for lookup using gene.chrom
 gene.chrom.dict <- function(sif) {
