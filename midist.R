@@ -14,7 +14,7 @@ load.index <- function(filename){
 #
 #Subgraphing functions
 #
-known.chrom(chrom_index) {
+known.chrom <- function(chrom_index) {
         return(!is.na(chrom_index$V1) & !is.na(chrom_index$V2))
 }
 
@@ -32,21 +32,21 @@ is.inter.chromosomic <-function(chrom_index){
   )
 }
 
-is.in.chrom(chrom_index, chrom_name) {
+is.in.chrom <- function(chrom_index, chrom_name) {
 	return(
 		(chrom_index$V1 == chrom_name | chrom_index$V2 == chrom_name)
 		& known.chrom(chrom_index)
 	)
 }
 
-is.in.chroms(chrom_index, ...) {
+is.in.chroms <- function(chrom_index, ...) {
 	return(
 		(chrom_index$V1 %in% c(...) | chrom_index$V2 %in% c(...))
 		& known.chrom(chrom_index)
 	)
 }
 
-is.between.chroms(chrom_index, c1, c2) {
+is.between.chroms <- function(chrom_index, c1, c2) {
 	return(
 		known.chrom(chrom_index)
 		& ( (chrom_index$V1 == c1 & chrom_index$V2 == c2)
@@ -246,7 +246,7 @@ shuffle_interactions_test<-function(sif, index){
 
 shuffle_repeat <- function(sif, index, n){
   L<-list()
-  for(i in 1:n){
+  for (i in 1:n) {
     name = paste(i)
     k <- shuffle_interactions_test(sif, index)
     L <- c(L, i = as.list(k))
