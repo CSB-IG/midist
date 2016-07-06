@@ -1,9 +1,6 @@
 # this function generates a dictionary of gene, chromosome
 # for lookup using gene.chrom
-gene.chrom.dict <- function(sif) {
-	# get all the genes in the sif file
-	genes<-unique(c(unique(sif$V1), unique(sif$V3)))
-
+gene.chrom.dict <- function(genes) {
 	# find the genes on biomart
 	mart = biomaRt::useMart(
 		biomart="ENSEMBL_MART_ENSEMBL",
@@ -20,8 +17,9 @@ gene.chrom.dict <- function(sif) {
 	# filter only valid gene/chromosome pairs
 	valid_chroms = c(1:23, "X", "Y")
 	genes_in_valid_chroms <- genes_in_chrom[genes_in_chrom$chromosome_name%in%valid_chroms,]
-	gene_dict = hash::hash(genes_in_valid_chroms$hgnc_symbol, genes_in_valid_chroms$chromosome_name)
 
+	# convert to dictionary
+	gene_dict = hash::hash(genes_in_valid_chroms$hgnc_symbol, genes_in_valid_chroms$chromosome_name)
 	return(gene_dict)
 }
 
