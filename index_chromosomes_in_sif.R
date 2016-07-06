@@ -11,8 +11,12 @@
 
 # chrom_for_gene_1 <tab> chrom_for_gene_2
 
-library("chrom.lookup")
 library("argparse")
+library("biomaRt")
+library("chrom.lookup")
+library("data.table")
+library("hash")
+library("parallel")
 # MAIN
 
 parser <- ArgumentParser(description = "Split a sif file in intra/inter chromosomic interactions.")
