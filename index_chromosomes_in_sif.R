@@ -11,7 +11,7 @@
 
 # chrom_for_gene_1 <tab> chrom_for_gene_2
 
-source("indexing.R")
+library("chrom.lookup")
 library("argparse")
 # MAIN
 

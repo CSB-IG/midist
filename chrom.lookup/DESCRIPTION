@@ -1,0 +1,9 @@
+Package: chrom.lookup
+Type: Package
+Title: Takes a list of genes and outputs a list of chromosomes.
+Version: 0.0.0
+Date: 2016-07-06
+Author: Guillermo de Anda Jauregui <guillermodeandajauregui@gmail.com>
+Maintainer: Joshua Haase <jihaase@inmegen.gob.mx>
+Description: This Package performs a query lookup for a list of given genes and outputs the chromosome where they belong according to ENSEMBL_MART.
+License: GPL3+
