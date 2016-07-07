@@ -27,7 +27,12 @@ args <- parser$parse_args()
 
 sif <- fread(input = args$file, data.table = FALSE)
 
-idx <- index.chromosome(sif)
+genes <- unique(c(unique(sif$V1), unique(sif$V3)))
+dict <- gene.chrom.dict(genes)
+
+idx <- as.data.frame(matrix(as.character(NA), nrow(sif), 2))
+idx$V1 <- index.chromosome(sif$V1, dict)
+idx$V2 <- index.chromosome(sif$V3, dict)
 
 idx_fname = gsub(".(txt|sif)", "_chrom.index", basename(args$file))
 
