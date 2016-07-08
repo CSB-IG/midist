@@ -3,7 +3,7 @@
 
 \title{ Load a chromosome index to subset a SIF }
 
-\descrition{ Given a 'filename' (character), it reads the file and returns a chromosomic_index (data.frame) }
+\description{ Given a 'filename' (character), it reads the file and returns a chromosomic_index (data.frame) }
 
 \usage{ load.index("/path/to/index") }
 
