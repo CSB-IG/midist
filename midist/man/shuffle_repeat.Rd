@@ -1,70 +1,27 @@
 \name{shuffle_repeat}
 \alias{shuffle_repeat}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-%%  ~~function to do ... ~~
+\title{Repeated shuffle interaction test
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Performs repeated null models for the comparison of intrachromosomal and interchromosomal mutual information distributions in gene regulatory networks or similar 
 }
 \usage{
 shuffle_repeat(sif, index, n)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{sif}{
-%%     ~~Describe \code{sif} here~~
+\item{sif}{
+a SIF like object, node-interaction-node
 }
   \item{index}{
-%%     ~~Describe \code{index} here~~
+an index obtained by chrom.index 
 }
   \item{n}{
-%%     ~~Describe \code{n} here~~
+number of repeats
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+a list of length n of lists with class "htest" as returned by wilcox.test
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (sif, index, n)
-{
-    L <- list()
-    for (i in 1:n) {
-        name = paste(i)
-        k <- shuffle_interactions_test(sif, index)
-        L <- c(L, i = as.list(k))
-    }
-    return(L)
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
