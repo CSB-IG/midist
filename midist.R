@@ -1,63 +1,3 @@
-#LIBRARIES
-library("data.table")
-
-#
-# Load index
-#
-load.index <- function(filename){
-  idx <- fread(input = filename, data.table = FALSE)
-  idx$V1 = as.character(idx$V1)
-  idx$V2 = as.character(idx$V2)
-  return(as.data.frame(idx))
-}
-
-#
-#Subgraphing functions
-#
-known.chrom <- function(chrom_index) {
-        return(!is.na(chrom_index$V1) & !is.na(chrom_index$V2))
-}
-
-is.intra.chromosomic<-function(chrom_index){
-	return(
-		(chrom_index$V1 == chrom_index$V2)
-		& known.chrom(chrom_index)
-	)
-}
-
-is.inter.chromosomic <-function(chrom_index){
-  return(
-	chrom_index$V1 != chrom_index$V2
-	& known.chrom(chrom_index)
-  )
-}
-
-is.in.chrom <- function(chrom_index, chrom_name) {
-	return(
-		(chrom_index$V1 == chrom_name | chrom_index$V2 == chrom_name)
-		& known.chrom(chrom_index)
-	)
-}
-
-is.in.chroms <- function(chrom_index, ...) {
-	return(
-		(chrom_index$V1 %in% c(...) | chrom_index$V2 %in% c(...))
-		& known.chrom(chrom_index)
-	)
-}
-
-is.between.chroms <- function(chrom_index, c1, c2) {
-	return(
-		known.chrom(chrom_index)
-		& ( (chrom_index$V1 == c1 & chrom_index$V2 == c2)
-		| (chrom_index$V1 == c2 & chrom_index$V2 == c1) )
-	)
-}
-
-selector<-function(sif, index){
-  return(subset(sif, index))
-}
-
 #
 # probability density functions
 #
@@ -232,10 +172,13 @@ U_test<- function(pdf1, pdf2){
 
 shuffle_interactions_test<-function(sif, index){
   #shuffle interactions
-  dex_shuffle <- sample(as.data.frame(index))
+  dex_shuffle <- sample(index)
   #shuffled networks
-  intranw <- intra(sif = sif, index = dex_shuffle)
-  internw <- inter(sif = sif, index = dex_shuffle)
+  intradx <- sif.subset.by.chrom::is.intra.chromosomic(dex_shuffle)
+  interdx <- sif.subset.by.chrom::is.inter.chromosomic(dex_shuffle)
+  #subset the networks 
+  intranw <- subset(sif, intradx)
+  internw <- subset(sif, interdx)
   #density
   d.intra <- density(intranw$V2)
   d.inter <- density(internw$V2)
@@ -247,9 +190,8 @@ shuffle_interactions_test<-function(sif, index){
 shuffle_repeat <- function(sif, index, n){
   L<-list()
   for (i in 1:n) {
-    name = paste(i)
-    k <- shuffle_interactions_test(sif, index)
-    L <- c(L, i = as.list(k))
+    k <- sit(sif, index)
+    L <- cbind(unlist(L), unlist(k))
   }
   return(L)
 }
