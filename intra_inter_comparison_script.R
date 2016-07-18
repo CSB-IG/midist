@@ -2,7 +2,7 @@
 # This script takes a SIF file containting an interaction network
 # and a chrom.index
 #returns Mann-Whitney U test for intrachromosomic and interchromosomic tests for networks
-#and a null model list 
+#and a null model list
 
 library("argparse")
 library("data.table")
@@ -12,32 +12,27 @@ library("midist")
 parser <- ArgumentParser(description = "Split a sif file in intra/inter chromosomic interactions.")
 parser$add_argument(
 	"file",
-	metavar = 'file',
 	type = 'character',
-	help = "The SIF file to process.",
+	help = "The SIF file to process."
 )
 
 parser$add_argument(
 	"index",
-	metavar = 'index',
 	type = 'character',
-	help = "The chrom.index for the SIF file.",
+	help = "The chrom.index for the SIF file."
 )
 
 parser$add_argument(
 	"--plots",
-	metavar = 'plotz',
-	type = 'logical',
-	default = FALSE
-	help = "The chrom.index for the SIF file.",
+	action="store_true",
+	help = "The chrom.index for the SIF file."
 )
 
 parser$add_argument(
-	"outpath",
-	metavar = 'outpath',
-	type = 'character',
-	default = "./"
-	help = "output path.",
+	"-o",
+	"--output",
+	default = "./",
+	help = "The directory where the output should go."
 )
 
 args <- parser$parse_args()
@@ -61,7 +56,7 @@ intra_pdf<-pdf.sif(sif = intra_test)
 inter_pdf<-pdf.sif(sif = inter_test)
 
 #move to output directory
-setwd(args$outpath)
+setwd(args$output)
 
 #output prefix
 prefix_fname = basename(args$file)
@@ -80,7 +75,6 @@ prueba_U<-U_test(pdf1 = intra_pdf, pdf2 = inter_pdf)
 u_out <- unlist(prueba_U)
 write.csv(u_out, file = paste0(prefix_fname, ".stats"))
 
-#null model             
+#null model
 null_model <- shuffle_repeat(sif, index, n = 100)
 write.csv(null_model, file = paste0(prefix_fname, ".nullmodel"))
-

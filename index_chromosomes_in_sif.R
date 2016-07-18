@@ -23,7 +23,18 @@ parser$add_argument(
 	type = 'character',
 	help = "The SIF file to process."
 )
+parser$add_argument(
+	"-o",
+	"--output",
+	help = "The name of the file where to write the index."
+)
 args <- parser$parse_args()
+
+if(is.null(args$output)) {
+	idx_fname = gsub(".(txt|sif)", "_chrom.index", basename(args$file))
+} else {
+	idx_fname = args$output
+}
 
 sif <- fread(input = args$file, data.table = FALSE)
 
@@ -34,7 +45,6 @@ idx <- as.data.frame(matrix(as.character(NA), nrow(sif), 2))
 idx$V1 <- index.chromosome(sif$V1, dict)
 idx$V2 <- index.chromosome(sif$V3, dict)
 
-idx_fname = gsub(".(txt|sif)", "_chrom.index", basename(args$file))
 
 # Write index for intra chromosomic interactions
 write.table(

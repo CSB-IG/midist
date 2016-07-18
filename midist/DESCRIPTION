@@ -1,7 +1,7 @@
 Package: midist
 Type: Package
 Title: Package for the analysis of MI distribution on SIF files
-Version: 0.1.0
+Version: 0.1.1
 Date: 2016-07-05
 Author: Guillermo de Anda Jáuregui <guillermodeandajauregui@gmail.com>
 Maintainer: Joshua Haase <jihaase@inmegen.gob.mx>
