@@ -190,7 +190,7 @@ shuffle_interactions_test<-function(sif, index){
 shuffle_repeat <- function(sif, index, n){
   L<-list()
   for (i in 1:n) {
-    k <- sit(sif, index)
+    k <- shuffle_interactions_test(sif, index)
     L <- cbind(unlist(L), unlist(k))
   }
   return(L)
