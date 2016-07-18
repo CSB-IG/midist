@@ -3,6 +3,8 @@ TARGETS=`{find -L data/ -type f -name '*.sif' \
 		-e 's#$#.nullmodel#g' \
 }
 
+NPROC=1
+
 intraintertest:V: $TARGETS
 
 
