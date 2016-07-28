@@ -41,10 +41,9 @@ sif <- fread(input = args$file, data.table = FALSE)
 genes <- unique(c(unique(sif$V1), unique(sif$V3)))
 dict <- gene.chrom.dict(genes)
 
-idx <- as.data.frame(matrix(as.character(NA), nrow(sif), 2))
-idx$V1 <- index.chromosome(sif$V1, dict)
-idx$V2 <- index.chromosome(sif$V3, dict)
-
+i1 <- index.chromosome(sif$V1, dict)
+i2 <- index.chromosome(sif$V3, dict)
+idx <- cbind(i1, i2)
 
 # Write index for intra chromosomic interactions
 write.table(
