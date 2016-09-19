@@ -26,12 +26,10 @@ Maintainer: \packageMaintainer{chrom.lookup}
 }
 
 \keyword{ package }
+\keyword{ chromosome }
+\keyword{ genes }
 \seealso{
-	\code{ \link{ gene.chrom }
-	\code{ \link{ gene.chrom.dict }
-	\code{ \link{ index.chromosome }
-}
-
-\examples{
-%%~~ simple examples of the most important functions ~~
+	\code{ \link{ gene.chrom } }
+	\code{ \link{ gene.chrom.dict } }
+	\code{ \link{ index.chromosome } }
 }

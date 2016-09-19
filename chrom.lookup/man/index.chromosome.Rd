@@ -58,6 +58,4 @@ function (genes, chrom_dict = gene.chrom.dict(genes))
 	return(chrom_index)
 
 }
-
-\keyword{ chromosomes }
-\keyword{ genes }
+}

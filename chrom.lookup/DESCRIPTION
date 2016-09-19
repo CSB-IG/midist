@@ -1,7 +1,7 @@
 Package: chrom.lookup
 Type: Package
 Title: Takes a list of genes and outputs a list of chromosomes.
-Version: 0.1.0
+Version: 0.2.0
 Date: 2016-07-06
 Author: Guillermo de Anda Jauregui <guillermodeandajauregui@gmail.com>
 Maintainer: Joshua Haase <jihaase@inmegen.gob.mx>
