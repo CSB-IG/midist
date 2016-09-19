@@ -4,7 +4,10 @@ NPROC=1
 
 intraintertest:V: $TARGETS
 
-results/%.valid.chrom_info:	data/%sif
+data/%.sif:D:	data/%.sif.bz2
+	bzip2 -k -c -d `readlink -f $prereq` > $target
+
+results/%.valid.chrom_info:	data/%.sif
 	./chrom_info \
 		$prereq \
 		--vanilla results/$stem.vanilla.chrom_info \
@@ -29,7 +32,10 @@ results/indexes/%_chrom.index
 	Rscript intra_inter_comparison_script.R \
 		$prereq \
 		--plots \
-		-o $DIR
+		-o $DIR &&
+	{
+		test -f data/$stem.sif.bz2 && rm data/$stem.sif || true
+	}
 
 init:V:
 	mkdir -p data results

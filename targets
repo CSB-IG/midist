@@ -4,6 +4,8 @@ find \
 	data/ \
 	-type f \
 	-name '*.sif' \
+	-o -name '*.sif.bz2' \
 | sed \
+	-e 's#.bz2##g' \
 	-e 's#data/#results/#g' \
 	-e 's#$#.nullmodel#g'
