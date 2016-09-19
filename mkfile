@@ -1,7 +1,4 @@
-TARGETS=`{find -L data/ -type f -name '*.sif' \
-	| sed -e 's#data/#results/#g' \
-		-e 's#$#.nullmodel#g' \
-}
+TARGETS=`{./targets}
 
 NPROC=1
 
