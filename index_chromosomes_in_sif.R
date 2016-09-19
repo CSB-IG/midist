@@ -24,6 +24,11 @@ parser$add_argument(
 	help = "The SIF file to process."
 )
 parser$add_argument(
+	"-d",
+	"--dictionary",
+	help = "A tab delimited file containing bioMart fields: hgnc_symbol, chromosome_name."
+)
+parser$add_argument(
 	"-o",
 	"--output",
 	help = "The name of the file where to write the index."
@@ -39,7 +44,16 @@ if(is.null(args$output)) {
 sif <- fread(input = args$file, data.table = FALSE)
 
 genes <- unique(c(unique(sif$V1), unique(sif$V3)))
-dict <- gene.chrom.dict(genes)
+
+if(is.null(args$dictionary)) {
+	chrom_info = chrom.info.biomart(genes)
+} else {
+	chrom_info = fread(input = args$dict,
+		colClasses=c("character", "character"),
+		data.table=FALSE);
+}
+
+dict <- gene.chrom.dict(chrom_info)
 
 i1 <- index.chromosome(sif$V1, dict)
 i2 <- index.chromosome(sif$V3, dict)
