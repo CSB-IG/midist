@@ -14,6 +14,7 @@
 library("argparse")
 library("chrom.lookup")
 library("data.table")
+library("hash")
 # MAIN
 
 parser <- ArgumentParser(description = "Split a sif file in intra/inter chromosomic interactions.")
