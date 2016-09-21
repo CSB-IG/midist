@@ -1,13 +1,138 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.8.1
 RVersion: 3.3.1
-Repos: BioCsoft=http://bioconductor.org/packages/3.3/bioc,
-    BioCann=http://bioconductor.org/packages/3.3/data/annotation,
-    BioCexp=http://bioconductor.org/packages/3.3/data/experiment,
-    BioCextra=http://bioconductor.org/packages/3.3/extra,
+Repos: BioCsoft=https://bioconductor.org/packages/3.3/bioc,
+    BioCann=https://bioconductor.org/packages/3.3/data/annotation,
+    BioCexp=https://bioconductor.org/packages/3.3/data/experiment,
+    BioCextra=https://bioconductor.org/packages/3.3/extra,
     CRAN=https://cran.rstudio.com
+
+Package: AnnotationDbi
+Source: Bioconductor
+Version: 1.34.4
+Hash: 769647d2eee1b97f06aee4d353d00048
+Requires: Biobase, BiocGenerics, DBI, IRanges, RSQLite, S4Vectors
+
+Package: Biobase
+Source: Bioconductor
+Version: 2.32.0
+Hash: 8656d39f7657385a5aac26e9c3e53007
+Requires: BiocGenerics
+
+Package: BiocGenerics
+Source: Bioconductor
+Version: 0.18.0
+Hash: a7867e1dc7d96afd75a5d76053e495a6
+
+Package: DBI
+Source: CRAN
+Version: 0.5-1
+Hash: 375869004db963f9915f2b8a49b4a718
+
+Package: IRanges
+Source: Bioconductor
+Version: 2.6.1
+Hash: cfa4af9a9c8ea4665a5fdebaebfaa0f2
+Requires: BiocGenerics, S4Vectors
+
+Package: RCurl
+Source: CRAN
+Version: 1.95-4.8
+Hash: 79c7d5a8684e44e0e3426d3093aa7d90
+Requires: bitops
+
+Package: RSQLite
+Source: CRAN
+Version: 1.0.0
+Hash: 3df52a54766f420d257debad962146c0
+Requires: DBI
+
+Package: S4Vectors
+Source: Bioconductor
+Version: 0.10.3
+Hash: 77fd926316f402ff977c8f82287d623a
+Requires: BiocGenerics
+
+Package: XML
+Source: CRAN
+Version: 3.98-1.4
+Hash: 9f8bc34c3c3d2967c7d25f8945216ffa
+
+Package: argparse
+Source: CRAN
+Version: 1.0.1
+Hash: 647ee5e33450d209a4b975c03ef382b5
+Requires: findpython, getopt, proto, rjson
+
+Package: biomaRt
+Source: Bioconductor
+Version: 2.28.0
+Hash: 3fed01458527786866fd65db386840a8
+Requires: AnnotationDbi, RCurl, XML
+
+Package: bitops
+Source: CRAN
+Version: 1.0-6
+Hash: 67d0775189fd0041d95abca618c5c07e
+
+Package: chrom.lookup
+Source: source
+Version: 0.2.0
+Hash: d5968db2cc11408109c5b64cb50d09d5
+Requires: biomaRt, hash
+SourcePath: ./libs/chrom.lookup
+
+Package: chron
+Source: CRAN
+Version: 2.3-47
+Hash: d25d96d908cd21080f24c89eed4c80a0
+
+Package: data.table
+Source: CRAN
+Version: 1.9.6
+Hash: f92ef1f73afa43bf6fd69a22f3794abd
+Requires: chron
+
+Package: findpython
+Source: CRAN
+Version: 1.0.1
+Hash: a29eaf7b6e9fcf7e4cb26617eed5773f
+
+Package: getopt
+Source: CRAN
+Version: 1.20.0
+Hash: 951e83029bb5f798b53d7b53cbc50be9
+
+Package: hash
+Source: CRAN
+Version: 2.2.6
+Hash: 4ee63151031d09c6f24a9179fe83e634
+
+Package: midist
+Source: source
+Version: 0.1.1
+Hash: d09db2cb518af36b667ea68c3f1d5e46
+Requires: sif.subset.by.chrom
+SourcePath: ./libs/midist
 
 Package: packrat
 Source: CRAN
 Version: 0.4.8-1
 Hash: 6ad605ba7b4b476d84be6632393f5765
+
+Package: proto
+Source: CRAN
+Version: 0.3-10
+Hash: 05d7ad64db29a39d1b02c4b9f1f4edb2
+
+Package: rjson
+Source: CRAN
+Version: 0.2.15
+Hash: def074f38d0cff3b597649ee6f976128
+
+Package: sif.subset.by.chrom
+Source: source
+Version: 0.1.1
+Hash: 961f1dad5967781230d53aa668a09b95
+Requires: data.table
+SourcePath: ./libs/sif.subset.by.chrom
