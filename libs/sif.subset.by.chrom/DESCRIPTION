@@ -1,7 +1,7 @@
 Package: sif.subset.by.chrom
 Type: Package
 Title: Makes subsets of a SIF using chromosomic info
-Version: 0.1.1
+Version: 0.1.2
 Date: 2016-07-07
 Author: Joshua Haase <jihaase@inmegen.gob.mx>
 Maintainer: Joshua Haase <jihaase@inmegen.gob.mx>

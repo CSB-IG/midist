@@ -2,7 +2,9 @@
 #
 # Returns a data frame containing the chromosome names for the genes in your SIF.
 load.index <- function(filename){
-	idx = data.table::fread(input = filename, data.table = FALSE)
+	idx = data.table::fread(input = filename,
+		data.table = FALSE,
+		colClasses = c("character", "character"))
 	idx$V1 = as.character(idx$V1)
 	idx$V2 = as.character(idx$V2)
 	return(as.data.frame(idx))
