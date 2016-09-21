@@ -50,13 +50,15 @@ gene.chrom <- function(gene_name, gene_dict) {
 # Takes a list of gene names and a dict containing gene, chromosome.
 #
 # Returns a vector containing a chromosome name for each gene name on genes.
-index.chromosome <- function(genes, chrom_dict = gene.chrom.dict(chrom.info.biomart(genes))) {
+index.chromosome <- function(genes,
+chrom_dict = gene.chrom.dict(chrom.info.biomart(genes)),
+mc.cores = 1) {
 	chrom_index <- parallel::mcmapply(
 		FUN=gene.chrom,
 		genes,
 		MoreArgs = list(chrom_dict),
 		USE.NAMES=FALSE,
-		mc.cores=16
+		mc.cores=mc.cores
 	)
 	return(chrom_index)
 }
