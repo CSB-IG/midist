@@ -1,4 +1,4 @@
-TARGETS=`{./targets}
+TARGETS=`{./targets 2>/dev/null}
 
 NPROC=1
 
@@ -20,3 +20,9 @@ data/%.sif	results/indexes/%_chrom.index
 		$prereq \
 		--plots \
 		-o $DIR
+
+init:V:
+	mkdir -p data results
+
+clean:V:
+	rm -r results
