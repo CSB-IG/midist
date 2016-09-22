@@ -33,7 +33,7 @@ packrat::restore()
 q("no")
 ```
 
-4.  Add SIF files to the data file.
+4.  Add SIF files to the data directory.
 
 5.  Run the analysis.
 
