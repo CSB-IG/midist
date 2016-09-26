@@ -77,8 +77,8 @@ Hash: 67d0775189fd0041d95abca618c5c07e
 
 Package: chrom.lookup
 Source: source
-Version: 0.2.0
-Hash: d5968db2cc11408109c5b64cb50d09d5
+Version: 0.2.2
+Hash: abde25b469d5d63fe4fb79004c931e08
 Requires: biomaRt, hash
 SourcePath: ./libs/chrom.lookup
 
