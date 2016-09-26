@@ -4,16 +4,25 @@ NPROC=1
 
 intraintertest:V: $TARGETS
 
-
-results/indexes/%_chrom.index:	data/%.sif
-	mkdir -p `dirname $target`
-	Rscript index_chromosomes_in_sif.R \
+results/%.valid.chrom_info:	data/%sif
+	./chrom_info \
 		$prereq \
-		-c 8 \
 		-o $target
 
-results/%.sif_log_plot.pdf	results/%.sif_plot_pdf	results/%.sif_zoom_plot.pdf	results/%.sif.stats	results/%.sif.nullmodel: \
-data/%.sif	results/indexes/%_chrom.index
+results/indexes/%_chrom.index:	data/%.sif	results/%.valid.chrom_info
+	mkdir -p `dirname $target`
+	cat data/$stem.sif \
+	| ./index_chromosomes_in_sif \
+		results/$stem.valid.chrom_info \
+	> $target
+
+results/%.sif_log_plot.pdf	\
+results/%.sif_plot_pdf	\
+results/%.sif_zoom_plot.pdf	\
+results/%.sif.stats	\
+results/%.sif.nullmodel: \
+data/%.sif	\
+results/indexes/%_chrom.index
 	DIR=`dirname $target`
 	mkdir -p $DIR
 	Rscript intra_inter_comparison_script.R \

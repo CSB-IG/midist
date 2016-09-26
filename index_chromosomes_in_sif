@@ -49,18 +49,18 @@ if __name__ == "__main__":
 
     chrom_dict = read_chrom_index(args.dictionary)
 
-    for line sys.stdin.readline() sif:
-    chrom1, chrom2 = ("NA", "NA")
+    for line in sys.stdin.readline():
+        chrom1, chrom2 = ("NA", "NA")
 
-    try:
-        gene1, mi, gene2 = line.split()
-    except:
-        print("Malformed SIF.", file=sys.stderr)
-	sys.exit(1)
+        try:
+            gene1, mi, gene2 = line.split()
+        except:
+            print("Malformed SIF.", file=sys.stderr)
+            sys.exit(1)
 
-    if gene1 in chrom_dict:
-        chrom1 = chrom_dict[gene1]
-    if gene2 in chrom_dict:
-        chrom2 = chrom_dict[gene2]
+        if gene1 in chrom_dict:
+            chrom1 = chrom_dict[gene1]
+        if gene2 in chrom_dict:
+            chrom2 = chrom_dict[gene2]
 
-    print("{}\t{}".format(chrom1, chrom2))
+        print("{}\t{}".format(chrom1, chrom2))
