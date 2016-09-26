@@ -10,7 +10,7 @@ results/%.valid.chrom_info:	data/%sif
 		--vanilla results/$stem.vanilla.chrom_info \
 		--output results/$stem.valid.chrom_info
 
-results/indexes/%_chrom.index:	data/%.sif	results/%.valid.chrom_info
+results/indexes/%_chrom.index:D:	data/%.sif	results/%.valid.chrom_info
 	mkdir -p `dirname $target`
 	cat data/$stem.sif \
 	| ./index_chromosomes_in_sif \
