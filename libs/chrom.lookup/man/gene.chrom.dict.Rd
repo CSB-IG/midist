@@ -40,9 +40,7 @@ example_genes <- c("A1BG", "MED27", "ANKRD49", "ARV1", "GEMIN6", "FAM86EP", "FRM
 ## The function is currently defined as
 function (genes_in_chrom)
 {
-    valid_chroms = c(1:23, "X", "Y")
-    genes_in_valid_chroms <- genes_in_chrom[genes_in_chrom$chromosome_name \%in\%
-        valid_chroms, ]
+    genes_in_valid_chroms = valid.chrom.info(genes_in_chrom)
     gene_dict = hash(genes_in_valid_chroms$hgnc_symbol, genes_in_valid_chroms$chromosome_name)
     return(gene_dict)
   }
