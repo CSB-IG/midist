@@ -1,5 +1,6 @@
 data
 results
 packrat/lib*/
+results*
 .RData
 .Rhistory

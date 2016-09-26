@@ -7,12 +7,18 @@
 gene.chrom.dict <- function(genes_in_chrom) {
 
 	# filter only valid gene/chromosome pairs
-	valid_chroms = c(1:23, "X", "Y")
-	genes_in_valid_chroms <- genes_in_chrom[genes_in_chrom$chromosome_name%in%valid_chroms,]
+	genes_in_valid_chroms = valid.chrom.info(genes_in_chrom)
 
 	# convert to dictionary
 	gene_dict = hash::hash(genes_in_valid_chroms$hgnc_symbol, genes_in_valid_chroms$chromosome_name)
 	return(gene_dict)
+}
+
+# this function returns only the info where chromosome is simple
+valid.chrom.info <- function(chrom_info) {
+	valid_chroms = c(1:23, "X", "Y")
+	valid_chrom_info <- chrom_info[chrom_info$chromosome_name %in% valid_chroms,]
+	return valid_chrom_info
 }
 
 # Get chromosome info for given genes from bioMart.
