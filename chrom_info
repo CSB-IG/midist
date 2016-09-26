@@ -24,16 +24,26 @@ parser$add_argument(
 	help = "The SIF file to process."
 )
 parser$add_argument(
+	"--vanilla",
+	help = "The name of the file where to write chrom_info as obtained from bioMart."
+)
+parser$add_argument(
 	"-o",
 	"--output",
-	help = "The name of the file where to write chrom_info."
+	help = "The name of the file where to write chrom_info using only valid names."
 )
 args <- parser$parse_args()
 
-if(is.null(args$output)) {
-	idx_fname = gsub(".(txt|sif)", "_chrom.index", basename(args$file))
+if(is.null(args$vanilla)) {
+	idx_vanilla = gsub(".(txt|sif)", ".vanilla.chrom_info", basename(args$file))
 } else {
-	idx_fname = args$output
+	idx_vanilla = args$vanilla
+}
+
+if(is.null(args$output)) {
+	idx_valid = gsub(".(txt|sif)", "_chrom.index", basename(args$file))
+} else {
+	idx_valid = args$output
 }
 
 sif <- fread(input = args$file, data.table = FALSE)
@@ -42,10 +52,22 @@ genes <- unique(c(unique(sif$V1), unique(sif$V3)))
 
 chrom_info = chrom.info.biomart(genes)
 
-# Write index for intra chromosomic interactions
+# Write index for all interactions (vanilla)
 write.table(
 	chrom_info,
-	file = idx_fname,
+	file = idx_vanilla,
+	quote = FALSE,
+	sep = "\t",
+	row.names = FALSE,
+	col.names = FALSE
+)
+
+chrom_info = valid.chrom.info(chrom_info)
+
+# Write index for valid interactions
+write.table(
+	chrom_info,
+	file = idx_valid,
 	quote = FALSE,
 	sep = "\t",
 	row.names = FALSE,

@@ -7,7 +7,8 @@ intraintertest:V: $TARGETS
 results/%.valid.chrom_info:	data/%sif
 	./chrom_info \
 		$prereq \
-		-o $target
+		--vanilla results/$stem.vanilla.chrom_info \
+		--output results/$stem.valid.chrom_info
 
 results/indexes/%_chrom.index:	data/%.sif	results/%.valid.chrom_info
 	mkdir -p `dirname $target`
