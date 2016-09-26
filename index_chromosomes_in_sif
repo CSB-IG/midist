@@ -1,0 +1,66 @@
+#!/usr/bin/python3
+"""
+Associate genes in a SIF file to the chromosome where it belongs.
+
+The output is an index of the chromosome name of each gene in the SIF file.
+
+SIF network is of the form (read from stdin):
+
+    gene_1 <tab> M.I. value <tab> gene_2
+
+Chromosome Index may contain a header and the info is in the form:
+
+    gene_symbol <tab> chromosome
+
+SIF Index (output) is of the form:
+
+    chrom_for_gene_1 <tab> chrom_for_gene_2
+"""
+
+def read_chrom_index(filename, has_header = True):
+    idx = {}
+    with open(filename, "r") as fsock:
+        for line in fsock:
+            if has_header:
+                has_header = False
+                continue
+            try:
+                gene, chrom = line.split()
+                idx[gene] = chrom
+            except:
+                print("Malformed gene-chromosome index.")
+    fsock.close()
+
+    return idx
+
+
+if __name__ == "__main__":
+    import argparse
+    import sys
+
+    parser = argparse.ArgumentParser(
+        description = "Associate genes in a SIF file to the chromosome where it belongs."
+    )
+    parser.add_argument(
+        "dictionary",
+        help = "The dictionary containing gene-chromosome pairs."
+    )
+    args = parser.parse_args()
+
+    chrom_dict = read_chrom_index(args.dictionary)
+
+    for line sys.stdin.readline() sif:
+    chrom1, chrom2 = ("NA", "NA")
+
+    try:
+        gene1, mi, gene2 = line.split()
+    except:
+        print("Malformed SIF.", file=sys.stderr)
+	sys.exit(1)
+
+    if gene1 in chrom_dict:
+        chrom1 = chrom_dict[gene1]
+    if gene2 in chrom_dict:
+        chrom2 = chrom_dict[gene2]
+
+    print("{}\t{}".format(chrom1, chrom2))
