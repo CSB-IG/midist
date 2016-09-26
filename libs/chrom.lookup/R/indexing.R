@@ -18,7 +18,7 @@ gene.chrom.dict <- function(genes_in_chrom) {
 valid.chrom.info <- function(chrom_info) {
 	valid_chroms = c(1:23, "X", "Y")
 	valid_chrom_info <- chrom_info[chrom_info$chromosome_name %in% valid_chroms,]
-	return valid_chrom_info
+	return(valid_chrom_info)
 }
 
 # Get chromosome info for given genes from bioMart.
