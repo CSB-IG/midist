@@ -110,8 +110,8 @@ Hash: 4ee63151031d09c6f24a9179fe83e634
 
 Package: midist
 Source: source
-Version: 0.1.1
-Hash: d09db2cb518af36b667ea68c3f1d5e46
+Version: 0.2.0
+Hash: 502d1420007e9c982aa36f4b92f03681
 Requires: sif.subset.by.chrom
 SourcePath: ./libs/midist
 

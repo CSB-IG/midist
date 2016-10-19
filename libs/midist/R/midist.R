@@ -6,6 +6,10 @@ pdf.sif<-function(sif){
   return(density(x = sif$V2))
 }
 
+sif.density <- function(sif){
+  return(density(x = sif$V2))
+}
+
 #
 #Plotting functions
 #
@@ -149,49 +153,4 @@ plot_density_zoom.wo<-function(..., zoom = 10, file = "plot.pdf"){
     }
   }
   dev.off()
-}
-
-
-#
-# Comparing via Mann Whitney
-#
-
-U_test<- function(pdf1, pdf2){
-
-  test<-wilcox.test(x = pdf1$y,
-                    y = pdf2$y,
-                    alternative = "two.sided",
-                    paired = FALSE,
-                    exact = FALSE)
-  return(test)
-}
-
-# PENDING
-# Shuffle interactions test
-#
-
-shuffle_interactions_test<-function(sif, index){
-  #shuffle interactions
-  dex_shuffle <- sample(index)
-  #shuffled networks
-  intradx <- sif.subset.by.chrom::is.intra.chromosomic(dex_shuffle)
-  interdx <- sif.subset.by.chrom::is.inter.chromosomic(dex_shuffle)
-  #subset the networks 
-  intranw <- subset(sif, intradx)
-  internw <- subset(sif, interdx)
-  #density
-  d.intra <- density(intranw$V2)
-  d.inter <- density(internw$V2)
-  #KW
-  return(U_test(d.intra, d.inter))
-
-}
-
-shuffle_repeat <- function(sif, index, n){
-  L<-list()
-  for (i in 1:n) {
-    k <- shuffle_interactions_test(sif, index)
-    L <- cbind(unlist(L), unlist(k))
-  }
-  return(L)
 }
