@@ -132,7 +132,7 @@ Hash: def074f38d0cff3b597649ee6f976128
 
 Package: sif.subset.by.chrom
 Source: source
-Version: 0.1.1
-Hash: 961f1dad5967781230d53aa668a09b95
+Version: 0.1.2
+Hash: 8629e06cf9bb873034c8691b58550e43
 Requires: data.table
 SourcePath: ./libs/sif.subset.by.chrom
