@@ -124,7 +124,7 @@ write(results_body(result), file = result_fname, append = TRUE)
 ## Null model
 s <- index
 write(results_header(result), file = null_model_fname) # reusing older header because it's just the same
-for (i in 1:100) {
+for (i in 1:1000) {
 	s$V1 <- sample(s$V1)
 	s$V2 <- sample(s$V2)
 	result = test.intra.inter(sif, s)
