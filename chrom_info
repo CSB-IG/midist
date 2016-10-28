@@ -47,10 +47,12 @@ if(is.null(args$output)) {
 }
 
 sif <- fread(input = args$file, data.table = FALSE)
-
 genes <- unique(c(unique(sif$V1), unique(sif$V3)))
+genes <- gsub("'", "", genes)
+rm(sif)
 
 chrom_info = chrom.info.biomart(genes)
+rm(genes)
 
 # Write index for all interactions (vanilla)
 write.table(
