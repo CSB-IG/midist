@@ -1,7 +1,5 @@
 TARGETS=`{./targets 2>/dev/null}
 
-NPROC=1
-
 intraintertest:V: $TARGETS
 
 data/%.sif:D:	data/%.sif.bz2
@@ -42,3 +40,13 @@ init:V:
 
 clean:V:
 	rm -r results
+
+split_mi:V:	`{./targets_split_mi}
+
+results/mi_values/%.intra \
+results/mi_values/%.inter:	data/%.sif	results/indexes/%_chrom.index
+	mkdir -p `dirname $target`
+	./intra_inter_mi \
+		$prereq \
+		--output-intra 'results/mi_values/'$stem'.intra' \
+		--output-inter 'results/mi_values/'$stem'.inter'

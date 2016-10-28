@@ -1,0 +1,55 @@
+#!/usr/bin/Rscript
+
+library("argparse")
+library("data.table")
+library("sif.subset.by.chrom")
+
+parser <- ArgumentParser(description = "Split a sif file in intra/inter chromosomic interactions.")
+parser$add_argument(
+	"file",
+	type = 'character',
+	help = "The SIF file to process."
+)
+
+parser$add_argument(
+	"index",
+	type = 'character',
+	help = "The chrom.index for the SIF file."
+)
+
+parser$add_argument(
+	"--output-intra",
+	type = 'character',
+	help = "Where to store intra chromosomic pvalues."
+)
+
+parser$add_argument(
+	"--output-inter",
+	type = 'character',
+	help = "Where to store inter chromosomic pvalues."
+)
+
+args <- parser$parse_args()
+
+index <- load.index(args$index)
+sif <- fread(args$file, data.table = FALSE)
+
+write_mi <- function(sif, filename) {
+	write.table(
+		sif$V2,
+		file = filename,
+		quote = FALSE,
+		col.names = FALSE,
+		row.names = FALSE
+	)
+}
+
+if (! is.null(args$output_intra)) {
+	intra <- subset(sif, is.intra.chromosomic(index))
+	write_mi(intra, args$output_intra)
+}
+
+if (! is.null(args$output_inter)) {
+	inter <- subset(sif, is.inter.chromosomic(index))
+	write_mi(inter, args$output_inter)
+}
