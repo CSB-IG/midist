@@ -67,4 +67,8 @@ legend(
 	lty=1
 )
 
+if(!is.null(args$title)) {
+	title(args$title)
+}
+
 dev.off()
