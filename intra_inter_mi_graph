@@ -1,0 +1,70 @@
+#!/usr/bin/Rscript
+
+library("argparse")
+library("data.table")
+library("sif.subset.by.chrom")
+
+parser <- ArgumentParser(description = "Split a sif file in intra/inter chromosomic interactions.")
+parser$add_argument(
+	"file",
+	type = 'character',
+	help = "The SIF file to process."
+)
+
+parser$add_argument(
+	"index",
+	type = 'character',
+	help = "The chrom.index for the SIF file."
+)
+
+parser$add_argument(
+	"--output",
+	type = 'character',
+	help = "The name of the graph."
+)
+
+parser$add_argument(
+	"--title",
+	type = 'character',
+	help = "The title of the plot."
+)
+
+args <- parser$parse_args()
+
+index <- load.index(args$index)
+sif <- fread(args$file, data.table = FALSE)
+
+intra <- subset(sif, is.intra.chromosomic(index))
+inter <- subset(sif, is.inter.chromosomic(index))
+
+intra_hist <- hist(intra$V2, breaks=1000)
+inter_hist <- hist(inter$V2, breaks=1000)
+
+ymax <- max(c(intra_hist$counts, inter_hist$counts)) * 1.1
+
+png(file = args$output)
+plot(
+	intra_hist$breaks[1:length(intra_hist$breaks) - 1],
+	intra_hist$counts,
+	type="l",
+	col="red",
+	xlab="M.I.",
+	ylab="frequency",
+	ylim=c(1, ymax),
+	log="xy"
+)
+
+x<-inter_hist$breaks[1:length(inter_hist$breaks) - 1]
+y<-inter_hist$counts
+
+lines(x,y)
+
+legend(
+	"topright",
+	c("intra", "inter"),
+	col=c("red", "black"),
+	bty="n",
+	lty=1
+)
+
+dev.off()
