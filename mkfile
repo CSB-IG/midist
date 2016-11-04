@@ -50,3 +50,13 @@ results/mi_values/%.inter:	data/%.sif	results/indexes/%_chrom.index
 		$prereq \
 		--output-intra 'results/mi_values/'$stem'.intra' \
 		--output-inter 'results/mi_values/'$stem'.inter'
+
+graph:V:	`{./targets_graph}
+
+results/mi_graphs/%.png:	data/%.sif	results/indexes/%_chrom.index
+	mkdir -p `dirname $target`
+	./intra_inter_mi_graph \
+		$prereq \
+		'results/indexes/'$stem'_chrom.index' \
+		--title $stem'.sif' \
+		--output $target

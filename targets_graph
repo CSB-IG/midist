@@ -1,0 +1,11 @@
+#!/bin/sh
+find \
+	-L \
+	data/ \
+	-type f \
+	-name '*.sif' \
+	-o -name '*.sif.bz2' \
+| sed \
+	-e 's#.bz2##g' \
+	-e 's#data/#results/mi_graphs/#g' \
+	-e 's#.sif$#.png#g'
